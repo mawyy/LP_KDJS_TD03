@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+
+    <title>KDJS TD n°3 exo 1</title>
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+    <style>
+      body{ font-family: 'Quicksand', sans-serif; }
+
+      .conteneur {
+        border: 1px solid black;
+        width: 900px;
+        height: 500px;
+      }
+
+      .rouge {
+        background-color: red;
+        width: 75px;
+        height: 75px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      #sortable { 
+        list-style-type: none; 
+        margin: 0; 
+        padding: 0; 
+        width: 30%;
+      }
+      #sortable li { 
+        margin: 0 3px 3px 3px; 
+        padding: 0.4em; 
+        padding-left: 1.5em; 
+        height: 18px; 
+        border: 1px solid black;
+      }
+      
+
+    </style>
+
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="jquery-ui/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var x = $("#x");
+        var y = $("#y");
+
+        var smallDiv = $(".rouge");
+        smallDiv.draggable({
+          containment: "parent",
+          drag: function(e, ui) {
+            x.text(ui.position.left);
+            y.text(ui.position.top);
+          }
+        });
+
+        $("ul").sortable({
+          cursor: "move",
+          axis: "y",
+        });
+
+        $("#ordre").click(function() {
+          var i = 1;
+          $("ul li .num").each(function() {
+            $(this).text(i + ' - ');
+            i++;
+          });
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+    <div class="conteneur">
+      <div class="rouge"></div>
+    </div>
+
+    <p>Coordonnées de l'objet rouge : x = <span id="x">0</span>, y = <span id="y">0</span> </p>
+
+    <hr>
+
+    <p>Liste d'éléments :</p>
+    <ul id="sortable">
+      <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="num">1 - </span> Item 1</li>
+      <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="num">2 - </span> Item 2</li>
+      <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="num">3 - </span> Item 3</li>
+      <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="num">4 - </span> Item 4</li>
+      <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="num">5 - </span> Item 5</li>
+      <li><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="num">6 - </span> Item 6</li>
+    </ul>
+
+    <button id="ordre">Réordonner</button>
+  </body>
+</html>

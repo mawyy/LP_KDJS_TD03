@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>KDJS TD n°3 exo 6</title>
+
+    <style>
+      input.ng-valid.ng-touched { background-color: #b2ffb2 }
+      input.ng-invalid.ng-touched { background-color: #ffb2b2 }
+    </style>
+
+    <script src="angular.min.js"></script>
+  </head>
+
+  <body>
+    <div ng-app="FormApp" ng-controller="FormController">
+      <form name="form">
+        <p>NOM : <input type="text" ng-model="nom" required></p>
+        <p>PRENOM : <input type="text" ng-model="prenom" required></p>
+        <p>AGE: <input type="number" min="10" max="100" ng-model="age" required></p>
+        <p>MAIL: <input type="email" ng-model="email" required></p>
+        <p><input type="checkbox" ng-model="accept"> J'accepte les conditions générales.</p>
+        <input type="submit" value="Soumettre">
+        <div ng-show="form.$submitted">
+          <p ng-show="!accept">Veuillez accepter les conditions générales .</p>
+          <p ng-show="accept">Parfait !</p>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      var app = angular.module("FormApp", []);
+
+      app.controller("FormController", function($scope) {
+
+      });
+    </script>
+  </body>
+</html>

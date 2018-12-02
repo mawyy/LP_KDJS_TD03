@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>KDJS TD n°3 exo 5</title>
+    
+    <script src="angular.min.js"></script>
+  </head>
+
+  <body>
+    <div ng-app="PokemonApp" ng-controller="PokemonController">
+      <ul>
+        <li ng-repeat="pokemon in pokemons">{{ pokemon.id }} - {{ pokemon.ename }}</li>
+      </ul>
+    </div>
+
+    <script>
+      var app = angular.module("PokemonApp", []);
+
+      app.controller("PokemonController", function($scope, $http) {
+        $scope.pokemons = [];
+
+        $http.get("https://raw.githubusercontent.com/fanzeyi/Pokemon-DB/master/pokedex.json").then(function(response) {
+          if (response.status == 200) {
+            $scope.pokemons = response.data;
+          }
+        })
+      });
+    </script>
+  </body>
+</html>

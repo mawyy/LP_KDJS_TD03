@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>KDJS TD n°3 exo 4</title>
+    
+    <script src="angular.min.js"></script>
+  </head>
+  <body>
+    <div ng-app="app01" ng-controller="controlleur01">
+      <input type="text" ng-model="nombre1">
+      <input type="text" ng-model="nombre2">
+      <select ng-model="operation">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+      <p>{{ calcul() }}</p>
+    </div>
+
+    <script>
+      var app = angular.module("app01", []);
+
+      app.controller("controlleur01", function($scope) {
+        $scope.operation = "+";
+        $scope.calcul = function() {
+          if (!this.nombre1 || !this.nombre2) {
+            return "";
+          }
+          var resultat = 0;
+          switch (this.operation) {
+            case "+":
+              resultat = parseInt(this.nombre1) + parseInt(this.nombre2);
+              break;
+            case "-":
+              resultat = parseInt(this.nombre1) - parseInt(this.nombre2);
+              break;
+            case "*":
+              resultat = parseInt(this.nombre1) * parseInt(this.nombre2);
+              break;
+            case "/":
+              resultat = parseInt(this.nombre1) / parseInt(this.nombre2);
+              break;
+          }
+          return this.nombre1 + ' ' + this.operation + ' ' + this.nombre2 + ' = ' + resultat;
+        }
+      });
+    </script>
+  </body>
+</html>
