@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>KDJS TD n°3 exo 8</title>
+    <script src="angular.min.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="jquery-ui/jquery-ui.min.js"></script>
+    <style>
+      body{ font-family: 'Quicksand', sans-serif; }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("tr.liste").sortable({
+          cursor: "move",
+          axis: "y"
+        });
+      });
+    </script>
+  </head>
+  <body>   
+    <div class="app" ng-app="TodoApp" ng-controller="TodoController">
+      <h1>Application todo liste</h1>
+      <form ng-submit="ajouter(nouveau)">
+        <h2>Ajouter une tâche</h2>
+        <label for="nouveau">Description : </label>
+        <input class="description" ng-model="nouveau" id="new-input">        
+        
+        <button type="submit">Créer</button>
+      </form>
+
+      <hr>
+
+      <div>
+        <h3>Ma todo liste</h3>
+        <table class="table">
+          <thead>
+            <th></th>
+            <th>Description</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr class='liste' ng-repeat="item in items | filter:{checked: false}">
+              <td><input type="checkbox" ng-model="item.checked" ng-change="enregistrer()"></td>
+              
+              <td>{{ item.description }}</td>
+              <td><button type="button" ng-click="supprimer(item.id)">Supprimer</button></td>
+            </tr>
+            <tr class='liste' ng-repeat="item in items | filter:{checked: true}">
+              <td><input type="checkbox" ng-model="item.checked" ng-change="enregistrer()"></td>
+              
+              <td>{{ item.description }}</td>
+              <td><button type="button" ng-click="supprimer(item.id)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>    
+      (function () {
+        angular.module('TodoApp', []);
+        
+        angular.module('TodoApp').controller('TodoController', TodoController);
+      TodoController.$inject = ['$scope', 'storage'];
+
+      function TodoController($scope, storage) {
+          $scope.currentId = 0;
+          $scope.items = [];
+
+          $scope.initApp = function () {
+              if (!storage.isEmpty()) {
+                  this.currentId = storage.get("currentId");
+                  this.items = storage.get("items");
+              }
+          }
+
+          $scope.enregistrer = function () {
+              storage.set("currentId", this.currentId);
+              storage.set("items", this.items);
+          }
+
+          $scope.ajouter = function (description) {
+              if (description.trim() == "") { return; }
+
+              this.currentId += 1;
+              this.items.push({ id: this.currentId, description: description, checked: false });
+
+              this.enregistrer();
+              document.querySelector("#new-input").value = "";
+          }
+
+          $scope.supprimer = function(id) {
+              const index = this.items.findIndex(item => item.id === id);
+              if (index !== -1) {
+                  this.items.splice(index, 1);
+                  this.enregistrer();
+              }
+          }
+
+          $scope.initApp();
+      }
+       
+      })();
+    </script>
+    <script src="sauvegarde.js"></script>
+  </body>
+</html>
